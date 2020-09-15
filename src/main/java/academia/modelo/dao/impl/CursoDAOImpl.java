@@ -24,7 +24,7 @@ public class CursoDAOImpl implements CursoDAO {
 			"	rol " +												
 			" FROM cursos c, usuarios f " + 
 			" WHERE " + 
-			"	c.id_profesor = f.id;";
+			"	c.idProfesor = f.id;";
 	
 
 	@Override
