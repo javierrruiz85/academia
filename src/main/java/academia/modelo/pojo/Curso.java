@@ -3,20 +3,20 @@ package academia.modelo.pojo;
 public class Curso {
 	
 	private int id;
-	private String curso;
+	private String nombre;
 	private String identificador;
 	private int horas;
-	private Profesor profesor;
+	private Usuario profesor;
 	// TODO
     // private ArrayList<Alumno> alumno
 	
 	public Curso() {
 		super();
 		this.id = 0;
-		this.curso = "";
+		this.nombre = "";
 		this.identificador = "";
 		this.horas = 0;
-		this.profesor = new Profesor();
+		this.profesor = new Usuario();
 	}
 
 	public int getId() {
@@ -28,11 +28,11 @@ public class Curso {
 	}
 
 	public String getNombre() {
-		return curso;
+		return nombre;
 	}
 
 	public void setNombre(String nombre) {
-		this.curso = nombre;
+		this.nombre = nombre;
 	}
 
 	public String getIdentificador() {
@@ -51,19 +51,20 @@ public class Curso {
 		this.horas = horas;
 	}
 
-	public Profesor getProfesor() {
+	public Usuario getProfesor() {
 		return profesor;
 	}
 
-	public void setProfesor(Profesor profesor) {
+	public void setProfesor(Usuario profesor) {
 		this.profesor = profesor;
 	}
 
 	@Override
 	public String toString() {
-		return "Curso [id=" + id + ", nombre=" + curso + ", identificador=" + identificador + ", horas=" + horas
+		return "Curso [id=" + id + ", nombre=" + nombre + ", identificador=" + identificador + ", horas=" + horas
 				+ ", profesor=" + profesor + "]";
 	}
-	
+
+		
 	
 }
