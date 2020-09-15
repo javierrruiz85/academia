@@ -2,7 +2,7 @@
 
 <h1>Iniciar sesion</h1>
 
-
+<h2>${mensajeError}</h2>
 
 <form action="login" method="post" class="form-login">
 	<div class="form-group">

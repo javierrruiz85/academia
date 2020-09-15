@@ -38,6 +38,8 @@ public class LoginController extends HttpServlet {
 		String nombre = request.getParameter("nombre");
 		String password = request.getParameter("password");
 		
+		String mensajeError = "error en el usuario o contraseña";
+		
 		HttpSession session = request.getSession();
 		
 		// Buscar usuario y password en la BBDD
@@ -80,7 +82,7 @@ public class LoginController extends HttpServlet {
 			
 		} else {
 			
-			
+			request.setAttribute("mensajeError", mensajeError);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 			
 		}
