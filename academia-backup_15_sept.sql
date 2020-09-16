@@ -136,7 +136,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Alain','Moles',2,'123456'),(2,'Ander','Uraga',2,'123456'),(3,'Pepito','Piscinas',2,'123456'),(4,'Elier','Otero',1,'123456'),(5,'Beatriz','Martinez',1,'123456'),(6,'Asier','Mintegui',1,'123456'),(7,'Lander','Bilbao',1,'123456');
+INSERT INTO `usuarios` VALUES (1,'Alain','Moles',2,'e10adc3949ba59abbe56e057f20f883e'),(2,'Ander','Uraga',2,'e10adc3949ba59abbe56e057f20f883e'),(3,'Pepito','Piscinas',2,'e10adc3949ba59abbe56e057f20f883e'),(4,'Elier','Otero',1,'e10adc3949ba59abbe56e057f20f883e'),(5,'Beatriz','Martinez',1,'e10adc3949ba59abbe56e057f20f883e'),(6,'Asier','Mintegui',1,'e10adc3949ba59abbe56e057f20f883e'),(7,'Lander','Bilbao',1,'e10adc3949ba59abbe56e057f20f883e');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -149,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-15  9:37:18
+-- Dump completed on 2020-09-15 14:01:03

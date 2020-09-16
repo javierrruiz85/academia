@@ -1,6 +1,8 @@
 package academia.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import academia.modelo.dao.CursoDAO;
 import academia.modelo.dao.UsuarioDAO;
+import academia.modelo.dao.impl.CursoDAOImpl;
 import academia.modelo.dao.impl.UsuarioDAOImpl;
+import academia.modelo.pojo.Curso;
 import academia.modelo.pojo.Usuario;
 
 /**
@@ -46,6 +51,10 @@ public class LoginController extends HttpServlet {
 		UsuarioDAO dao = UsuarioDAOImpl.getInstance();
 		Usuario usuario = dao.buscar(nombre, password);
 		
+		CursoDAO daoCursos = new CursoDAOImpl();
+		
+
+		
 		/*
 		if (usuario.getRol() == 2) {
 			
@@ -67,6 +76,9 @@ public class LoginController extends HttpServlet {
 			
 			if (usuario.getRol() == 2) {
 				
+				int idProfesor = usuario.getId();
+				ArrayList<Curso> cursos = daoCursos.listarPorId(idProfesor);
+				request.setAttribute("cursos", cursos);
 				request.getRequestDispatcher("privado/profesor.jsp").forward(request, response);
 				
 			} else if (usuario.getRol() == 1) {
