@@ -51,34 +51,23 @@ public class LoginController extends HttpServlet {
 		UsuarioDAO dao = UsuarioDAOImpl.getInstance();
 		Usuario usuario = dao.buscar(nombre, password);
 		
-		CursoDAO daoCursos = new CursoDAOImpl();
+		CursoDAO daoCursos = CursoDAOImpl.getInstance();
 		
-
-		
-		/*
-		if (usuario.getRol() == 2) {
-			
-			request.getRequestDispatcher("privado/profesor.jsp").forward(request, response);
-			
-		} else if (usuario.getRol() == 1) {
-			
-			request.getRequestDispatcher("privado/alumno.jsp").forward(request, response);
-			
-		} else {
-			
-			// TODO mostrar mensaje "error en el usuario o contraseña"
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-			
-		}
-		*/
 		
 		if (usuario != null) {
 			
 			if (usuario.getRol() == 2) {
 				
+				// seteamos en la variable idProfesor el id del profesor que se loguea, lo obtenemos de usuario.getId()
 				int idProfesor = usuario.getId();
+				// creamos la variable cursos de tipo arraylist, y le seteamos los cursos del profesor logueado arriba
 				ArrayList<Curso> cursos = daoCursos.listarPorId(idProfesor);
+				// enviamos el arraylist con los cursos del profesor para poder verlos en la jsp (profesor.jsp)
 				request.setAttribute("cursos", cursos);
+				
+				session.setAttribute("usuarioSesion", usuario);
+				
+				// redirigimos a la jsp
 				request.getRequestDispatcher("privado/profesor.jsp").forward(request, response);
 				
 			} else if (usuario.getRol() == 1) {

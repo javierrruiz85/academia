@@ -5,12 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import academia.modelo.ConnectionManager;
 import academia.modelo.dao.CursoDAO;
 import academia.modelo.pojo.Curso;
 import academia.modelo.pojo.Usuario;
 
 public class CursoDAOImpl implements CursoDAO {
+	
+	// Inicio singleton
+	
+			public static CursoDAOImpl INSTANCE = null;
+			private final static Logger LOG = Logger.getLogger(CursoDAOImpl.class);
+			
+			private CursoDAOImpl() {
+				super();
+			}
+			
+			public static synchronized CursoDAOImpl getInstance() {
+				
+				if (INSTANCE == null) {
+					INSTANCE = new CursoDAOImpl();
+				}
+				
+				return INSTANCE;
+				
+			}
+			
+			// Fin Singleton
 	
 	
 	private final static String SQL_LISTAR = "SELECT \n" + 
@@ -38,6 +61,9 @@ public class CursoDAOImpl implements CursoDAO {
 			" FROM cursos c, usuarios f " + 
 			" WHERE " + 
 			"	c.idProfesor = f.id AND idProfesor = ?;";
+	
+	private final String SQL_DELETE = " DELETE FROM cursos WHERE id = ?; ";
+	private final String SQL_CREAR = "INSERT INTO cursos (nombre, identificador, horas, idProfesor) VALUES (?, ?, ?, ?);";
 	
 	
 //////////////////////////////////////////////////////// SQL_LISTAR /////////////////////////////////////////////////////
@@ -120,42 +146,80 @@ public class CursoDAOImpl implements CursoDAO {
 				e.printStackTrace();
 			}
 			
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}// try
 
 		return cursos;
 	}
-	/*
-	public Usuario buscar(String nombre, String password) {
+	
+//////////////////////////////////////////////////////// SQL_DELETE /////////////////////////////////////////////////////	
+
+	@Override
+	public void delete(int id) throws Exception {
+			
+		// obtener el producto antes de eliminar
 		
-		Usuario usuario = null;
-		try (	Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_BUSCAR);
-				) {
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
+		) {
 			
-			pst.setString(1, nombre);
-			pst.setString(2, password);
+			pst.setInt(1, id);
+			int affectedRows = pst.executeUpdate();
 			
-			try ( ResultSet rs = pst.executeQuery() ) {
-				if ( rs.next() ) {
-					// usuario
-					usuario = new Usuario();
-					usuario.setId(rs.getInt("id"));
-					usuario.setNombre(rs.getString("nombre"));
-					usuario.setApellidos(rs.getString("apellidos"));
-					usuario.setRol(rs.getInt("rol"));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();	
-		}
-		return usuario;
+			if (affectedRows != 1) {
+				throw new Exception("No se pudo eliminar el curso con ID " + id);
+			} // if
+			
+		} //try
+		
+		// no existe un return por que es un void
+		
+	} // delete
+	
+	
+//////////////////////////////////////////////////////// SQL_CREAR /////////////////////////////////////////////////////
+	
+	@Override
+	public Curso crear(Curso pojo) throws Exception {
+		
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_CREAR, PreparedStatement.RETURN_GENERATED_KEYS);
 				
+			) {
+			
+			pst.setString(1, pojo.getNombre());
+			pst.setString(2, pojo.getIdentificador());
+			pst.setInt(3, pojo.getHoras());
+			pst.setInt(4, pojo.getProfesor().getId());
+			
+			
+			LOG.debug(pst);
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if (affectedRows == 1) {
+				
+				try ( ResultSet rsKeys = pst.getGeneratedKeys() ){
+					
+					if ( rsKeys.next() ) {
+						pojo.setId(rsKeys.getInt(1));
+					} // if
+				}//try2
+				
+			} else {
+				
+				// en caso de que la Exception sea que ya esta repetida, en este caso, la pelicula, no muestra esta Exception, sino que va al controller y muestra las que tiene ahi
+				throw new Exception ("No se ha podido guardar el curso " + pojo);
+			} // if-else
+						
+		}//try 
+		
+		return pojo;
 	}
-	*/
+	
 
 	
 	

@@ -29,8 +29,8 @@ public class CursoController extends HttpServlet {
 		
 		
 		ArrayList<Curso> cursos = new ArrayList<Curso>();
-		//TODO singleton
-		CursoDAO dao = new CursoDAOImpl();		
+	
+		CursoDAO dao = CursoDAOImpl.getInstance();		
 		cursos = dao.listar();
 		
 		request.setAttribute("cursos", cursos);
